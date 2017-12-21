@@ -22,6 +22,7 @@ const plugins = [
 	}),
 	babel({
 		exclude: 'node_modules/**', // only transpile our source code
+		plugins: ['external-helpers'],
 	}),
 ];
 
@@ -29,7 +30,7 @@ export default [
 	{
 		input: 'src/index.js',
 		output: {
-			file: 'dist/blockle-router.esm.js',
+			file: 'dist/exmg-react-router.esm.js',
 			format: 'es',
 			banner,
 			sourcemap: true,
@@ -40,7 +41,7 @@ export default [
 	{
 		input: 'src/index.js',
 		output: {
-			file: 'dist/blockle-router.common.js',
+			file: 'dist/exmg-react-router.common.js',
 			format: 'cjs',
 			banner,
 			sourcemap: true,

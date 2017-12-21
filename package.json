@@ -2,13 +2,14 @@
   "name": "exmg-react-router",
   "version": "1.0.0",
   "description": "Context based router for react",
-  "main": "dist/blockle-router.common.js",
-  "module": "dist/blockle-router.esm.js",
+  "main": "dist/exmg-react-router.common.js",
+  "module": "dist/exmg-react-router.esm.js",
   "scripts": {
     "start": "rollup -c -w",
     "build": "rollup -c",
     "test": "jest",
-    "coverage": "jest --coverage"
+    "coverage": "jest --coverage",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
