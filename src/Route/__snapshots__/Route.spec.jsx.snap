@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders notFound route 1`] = `"404 Not Found"`;
+
+exports[`Route contains params 1`] = `
+Array [
+  "{\\"id\\":\\"16\\",\\"name\\":\\"barry\\",\\"rest\\":\\"some/args\\"}",
+  "{\\"rest\\":\\"16/barry/some/args\\"}",
+]
+`;
+
+exports[`Route renders children 1`] = `"Home"`;
+
+exports[`Route renders functions 1`] = `
+Array [
+  "Foo",
+  "Render anyway",
+]
+`;
+
+exports[`Route renders functions route: /foo 1`] = `
+Array [
+  "Bar",
+  "Render anyway",
+]
+`;

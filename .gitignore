@@ -1,0 +1,5 @@
+*.tgz
+/dist
+/node_modules
+/typings
+/coverage
