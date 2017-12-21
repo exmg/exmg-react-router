@@ -1,7 +1,6 @@
 import babel from 'rollup-plugin-babel';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-// import typescript from 'rollup-plugin-typescript';
 
 const version = process.env.VERSION || require('./package.json').version;
 
