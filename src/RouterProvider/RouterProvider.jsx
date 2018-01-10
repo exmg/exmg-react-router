@@ -90,7 +90,9 @@ export default class RouterProvider extends Component {
 			routes.forEach((route) => {
 				const match = route.match(pathname);
 
-				route.update(match);
+				if (!route.props.notFound) {
+					route.update(match);
+				}
 
 				if (route.props.exclude) {
 					return;
@@ -105,8 +107,8 @@ export default class RouterProvider extends Component {
 				}
 			});
 
-			if (!foundMatch && nonMatchingRoutes.length) {
-				nonMatchingRoutes.forEach(route => route.update(true));
+			if (nonMatchingRoutes.length) {
+				nonMatchingRoutes.forEach(route => route.update(!foundMatch));
 			}
 		});
 
