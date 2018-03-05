@@ -5,7 +5,7 @@ import commonjs from 'rollup-plugin-commonjs';
 const version = process.env.VERSION || require('./package.json').version;
 
 const banner = `/**
- * Blocke Router v${version}
+ * exmg-react-router v${version}
  * (C) 2017-${new Date().getFullYear()} Niek Saarberg
  * Released under the MIT License.
  */`;
