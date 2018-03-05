@@ -57,5 +57,13 @@
   "dependencies": {
     "history": "^4.7.2",
     "path-to-regexp": "^2.1.0"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "mapCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!**/node_modules/**"
+    ]
   }
 }
