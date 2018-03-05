@@ -45,7 +45,7 @@ export default class Route extends Component {
 		};
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		const { router } = this.context;
 
 		this.unregister = router.register(this);

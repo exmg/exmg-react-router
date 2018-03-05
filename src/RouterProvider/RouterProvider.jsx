@@ -40,12 +40,8 @@ export default class RouterProvider extends Component {
 		};
 	}
 
-	componentWillMount() {
-		this.unlisten = this.history.listen(this.updateAction);
-	}
-
 	componentDidMount() {
-		this.updateAction();
+		this.unlisten = this.history.listen(this.updateAction);
 	}
 
 	componentWillUnmount() {
