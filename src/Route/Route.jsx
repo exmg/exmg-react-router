@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import pathToRegexp from 'path-to-regexp';
 
 import { routerContextTypes } from '../RouterProvider/RouterProvider';
+import { equals } from '../util';
 
 export default class Route extends Component {
 	static propTypes = {
@@ -49,6 +50,13 @@ export default class Route extends Component {
 		const { router } = this.context;
 
 		this.unregister = router.register(this);
+	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		const propsChanged = !equals(this.props, nextProps);
+		const stateChanged = !equals(this.state, nextState);
+
+		return propsChanged || stateChanged;
 	}
 
 	componentWillUnmount() {
