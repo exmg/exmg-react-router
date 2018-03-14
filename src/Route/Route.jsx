@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import pathToRegexp from 'path-to-regexp';
 
 import { routerContextTypes } from '../RouterProvider/RouterProvider';
-import { equals } from '../util';
+import { shallowEqual, routerStateEqual } from '../util';
 
 export default class Route extends Component {
 	static propTypes = {
@@ -53,8 +53,8 @@ export default class Route extends Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		const propsChanged = !equals(this.props, nextProps);
-		const stateChanged = !equals(this.state, nextState);
+		const propsChanged = !shallowEqual(this.props, nextProps);
+		const stateChanged = !routerStateEqual(this.state, nextState);
 
 		return propsChanged || stateChanged;
 	}
