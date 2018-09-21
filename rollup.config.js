@@ -1,51 +1,52 @@
-import babel from 'rollup-plugin-babel';
 import resolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
-
-const version = process.env.VERSION || require('./package.json').version;
+import pkg from './package.json';
+import typescript from 'rollup-plugin-typescript2';
 
 const banner = `/**
- * exmg-react-router v${version}
- * (C) 2017-${new Date().getFullYear()} Niek Saarberg
+ * exmg-react-router v${pkg.version}
+ * (C) 2017-${new Date().getFullYear()} ${pkg.author}
  * Released under the MIT License.
  */`;
 
-const external = ['react', 'prop-types', 'history/createHashHistory', 'path-to-regexp'];
+const external = [
+  ...Object.keys(pkg.dependencies || {}),
+  ...Object.keys(pkg.devDependencies || {}),
+  ...Object.keys(pkg.peerDependencies || {}),
+];
 
 const plugins = [
-	resolve({
-		extensions: ['.js', '.jsx'],
-	}),
-	commonjs({
-		include: ['node_modules/**'],
-	}),
-	babel({
-		exclude: 'node_modules/**', // only transpile our source code
-		plugins: ['external-helpers'],
-	}),
+  typescript(),
+  resolve({
+    extensions: ['.ts', '.tsx'],
+  }),
 ];
 
-export default [
+export default [{
+  input: 'src/index.ts',
+  external: [
+    ...Object.keys(pkg.dependencies || {}),
+    ...Object.keys(pkg.devDependencies || {}),
+    ...Object.keys(pkg.peerDependencies || {}),
+  ],
+  output: [
 	{
-		input: 'src/index.js',
-		output: {
-			file: 'dist/exmg-react-router.esm.js',
-			format: 'es',
-			banner,
-			sourcemap: true,
-		},
-		external,
-		plugins,
-	},
-	{
-		input: 'src/index.js',
-		output: {
-			file: 'dist/exmg-react-router.common.js',
-			format: 'cjs',
-			banner,
-			sourcemap: true,
-		},
-		external,
-		plugins,
-	},
-];
+      banner,
+      file: pkg.main,
+      format: 'cjs',
+      exports: 'named',
+    },
+    {
+      banner,
+      file: pkg.module,
+      format: 'es'
+    }
+  ],
+  plugins: [
+    resolve({
+      extensions: ['.js', '.ts'],
+    }),
+    typescript({
+      useTsconfigDeclarationDir: true,
+    }),
+  ]
+}];

@@ -1,0 +1,13 @@
+{
+  "extends": "tslint-config-airbnb",
+  "env": {
+    "browser": true,
+    "jasmine": true
+  },
+  "rules": {
+    "import-name": false,
+    "variable-name": [true, "ban-keywords", "check-format", "allow-pascal-case"],
+    "max-line-length": false,
+    "object-shorthand-properties-first": false
+  }
+}
