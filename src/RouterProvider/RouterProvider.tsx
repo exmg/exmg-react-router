@@ -17,8 +17,9 @@ interface RoutesMap {
   [key: string]: RouteComponent[];
 }
 
+export const history = createHashHistory();
+
 export default class RouterProvider extends Component<Props> {
-  history = createHashHistory();
   raf?: number;
   routesMap: RoutesMap = {};
   unlisten: UnregisterCallback;
@@ -49,7 +50,7 @@ export default class RouterProvider extends Component<Props> {
   };
 
   componentDidMount() {
-    this.unlisten = this.history.listen(this.update);
+    this.unlisten = history.listen(this.update);
   }
 
   componentWillUnmount() {
@@ -63,7 +64,7 @@ export default class RouterProvider extends Component<Props> {
   }
 
   update = () => {
-    const { pathname } = this.history.location;
+    const { pathname } = history.location;
     const routeGroups = Object.values(this.routesMap);
 
     this.raf = null;

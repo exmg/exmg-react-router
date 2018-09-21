@@ -93,6 +93,14 @@ export default class RouteComponent extends Component<Props & Context, State> {
     });
   }
 
+  shouldComponentUpdate(nextProps: Props, nextState: State) {
+    if (this.state.match === nextState.match && this.props === nextProps) {
+      return false;
+    }
+
+    return true;
+  }
+
   render() {
     const { children } = this.props;
     const { match } = this.state;
