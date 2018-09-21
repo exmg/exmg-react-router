@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 
-import { Route } from 'Route';
-import { history } from '../RouterProvider';
+import { Route } from '../Route';
+import { getHistory } from '../utils';
 
 const isModifiedEvent = (event: React.MouseEvent<HTMLAnchorElement>) =>
   !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
@@ -11,12 +11,19 @@ interface Props {
   children: React.ReactNode;
   className: string;
   exact: boolean;
-  onClick: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
   to: string;
   replace: boolean;
 }
 
 export default class Link extends PureComponent<Props> {
+  static defaultProps = {
+    activeClassName: 'is-active',
+    className: 'link',
+    exact: false,
+    replace: false,
+  };
+
   clickAction = (event: React.MouseEvent<HTMLAnchorElement>) => {
     const { to, onClick, replace } = this.props;
 
@@ -28,9 +35,9 @@ export default class Link extends PureComponent<Props> {
       event.preventDefault();
 
       if (replace) {
-        history.replace(to);
+        getHistory().replace(to);
       } else {
-        history.push(to);
+        getHistory().push(to);
       }
     }
   }

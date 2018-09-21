@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import pathToRegexp from 'path-to-regexp';
 
-import { Context } from 'RouterProvider/RouterProvider';
+import { Context } from '../RouterProvider';
 
 type ChildrenFunc = (match: boolean, params?: Params) => React.ReactNode;
 
 export interface Props {
   children: React.ReactNode | ChildrenFunc;
   exact?: boolean;
-  path: string;
+  path?: string;
   notFound?: boolean;
   exclude?: boolean;
 }
@@ -26,7 +26,7 @@ export interface State {
   match: false | Match;
 }
 
-export default class RouteComponent extends Component<Props & Context, State> {
+export class RouteComponent extends Component<Props & Context, State> {
   static defaultProps = {
     path: '/',
     exact: false,

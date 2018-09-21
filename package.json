@@ -33,11 +33,14 @@
   "homepage": "https://github.com/exmg/exmg-react-router#readme",
   "devDependencies": {
     "@types/history": "^4.7.0",
+    "@types/jest": "^23.3.2",
     "@types/react": "^16.4.14",
     "@types/react-dom": "^16.0.7",
+    "@types/react-test-renderer": "^16.0.2",
     "enzyme": "^3.6.0",
     "enzyme-adapter-react-16": "^1.5.0",
     "jest": "^23.6.0",
+    "jest-dom": "^1.12.1",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-test-renderer": "^16.5.2",
@@ -45,6 +48,7 @@
     "rollup-plugin-commonjs": "^9.1.8",
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-typescript2": "^0.17.0",
+    "ts-jest": "^23.10.1",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.0",
     "typescript": "^3.0.3"
@@ -52,13 +56,5 @@
   "dependencies": {
     "history": "^4.7.2",
     "path-to-regexp": "^2.4.0"
-  },
-  "jest": {
-    "collectCoverage": true,
-    "mapCoverage": true,
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx}",
-      "!**/node_modules/**"
-    ]
   }
 }

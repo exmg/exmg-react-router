@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import RouteComponent from 'Route/Route';
-import { createHashHistory, UnregisterCallback  } from 'history';
+
+import { createHistory, HistoryTypes } from '../utils';
+import { RouteComponent } from 'Route/Route';
+import { UnregisterCallback  } from 'history';
 
 export interface Context {
   register: (component: Component) => (() => void);
@@ -11,18 +13,22 @@ export const Context = React.createContext<Context>({} as Context);
 
 export interface Props {
   children: React.ReactNode;
+  type: HistoryTypes;
 }
 
 interface RoutesMap {
   [key: string]: RouteComponent[];
 }
 
-export const history = createHashHistory();
-
 export default class RouterProvider extends Component<Props> {
+  static defaultProps = {
+    type: 'hash',
+  };
+
   raf?: number;
   routesMap: RoutesMap = {};
   unlisten: UnregisterCallback;
+  history = createHistory(this.props.type);
 
   register: Context['register'] = (routeComponent: RouteComponent) => {
     const { parentPath } = routeComponent.props;
@@ -50,7 +56,7 @@ export default class RouterProvider extends Component<Props> {
   };
 
   componentDidMount() {
-    this.unlisten = history.listen(this.update);
+    this.unlisten = this.history.listen(this.update);
   }
 
   componentWillUnmount() {
@@ -64,48 +70,48 @@ export default class RouterProvider extends Component<Props> {
   }
 
   update = () => {
-    const { pathname } = history.location;
+    const { pathname } = this.history.location;
     const routeGroups = Object.values(this.routesMap);
 
+    routeGroups.forEach(routes => this.updateGroup(pathname, routes));
+
     this.raf = null;
+  }
 
-    routeGroups.forEach((routes) => {
-      let foundMatch = false;
-      const nonMatchingRoutes: RouteComponent[] = [];
+  updateGroup(pathname: string, routes: RouteComponent[]) {
+    let foundMatch = false;
+    const nonMatchingRoutes: RouteComponent[] = [];
 
-      routes.forEach((route) => {
-        const match = route.match(pathname);
+    routes.forEach((route) => {
+      const match = route.match(pathname);
 
-        if (!route.props.notFound) {
-          route.update(match);
-        }
+      if (!route.props.notFound) {
+        route.update(match);
+      }
 
-        if (route.props.exclude) {
-          return;
-        }
+      if (route.props.exclude) {
+        return;
+      }
 
-        if (match) {
-          foundMatch = true;
-        }
+      if (match) {
+        foundMatch = true;
+      }
 
-        if (route.props.notFound) {
-          nonMatchingRoutes.push(route);
-        }
-      });
-
-      if (nonMatchingRoutes.length) {
-        const notFoundMatch = foundMatch ? false : { pathname, params: {} };
-
-        nonMatchingRoutes.forEach(route => route.update(notFoundMatch));
+      if (route.props.notFound) {
+        nonMatchingRoutes.push(route);
       }
     });
+
+    if (nonMatchingRoutes.length) {
+      const notFoundMatch = foundMatch ? false : { pathname, params: {} };
+
+      nonMatchingRoutes.forEach(route => route.update(notFoundMatch));
+    }
   }
 
   render() {
     return (
-      <Context.Provider
-        value={ this.contextProps }
-        >
+      <Context.Provider value={ this.contextProps }>
         { this.props.children }
       </Context.Provider>
     );

@@ -1,1 +1,1 @@
-export { default as RouterProvider, history } from './RouterProvider';
+export { default as RouterProvider, Context } from './RouterProvider';
