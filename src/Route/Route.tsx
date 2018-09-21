@@ -129,11 +129,11 @@ export class Route extends Component<Props> {
     return (
       <Context.Consumer>
         { router => (
-          <RouteComponent { ...router } { ...props }>
-            <Context.Provider value={ { register: router.register, parentPath: this.props.path } }>
+          <Context.Provider value={ { register: router.register, parentPath: this.props.path } }>
+            <RouteComponent { ...router } { ...props }>
               { children }
-            </Context.Provider>
-          </RouteComponent>
+            </RouteComponent>
+          </Context.Provider>
         ) }
       </Context.Consumer>
     );
