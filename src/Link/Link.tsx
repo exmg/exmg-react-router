@@ -12,8 +12,8 @@ interface Props {
   className: string;
   exact: boolean;
   onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
-  to: string;
   replace: boolean;
+  to: string;
 }
 
 export default class Link extends PureComponent<Props> {
@@ -49,7 +49,7 @@ export default class Link extends PureComponent<Props> {
       <Route path={ to } exact={ exact } exclude>
         { match => (
             <a
-              href={ `#${to}` }
+              href={ `${to}` }
               onClick={ this.clickAction }
               className={ `${className} ${match ? activeClassName : ''}` }
             >
