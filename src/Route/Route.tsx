@@ -8,9 +8,9 @@ type ChildrenFunc = (match: boolean, params?: Params) => React.ReactNode;
 export interface Props {
   children: React.ReactNode | ChildrenFunc;
   exact?: boolean;
-  path?: string;
-  notFound?: boolean;
   exclude?: boolean;
+  notFound?: boolean;
+  path?: string;
 }
 
 export interface Params {

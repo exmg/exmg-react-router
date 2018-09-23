@@ -14,6 +14,10 @@ Hash based router for react.
 npm install exmg-react-router
 ```
 
+```bash
+yarn add exmg-react-router
+```
+
 ## Usage
 
 ### Example
@@ -87,12 +91,15 @@ ReactDOM.render(
 
 ### RouterProvider
 
+* `type: ?String` default '`hash`'. Options `browser`, `hash` or `memory`
+
 ### Route
 
-* `children: ?JSX.Element` default `null`
-* `exact: ?Boolean` default `false`
-* `path: String`
-* `notFound: ?Boolean` default `false`
+* `children: ?JSX.Element`.
+* `exact: ?Boolean` default `false`.
+* `exclude: ?Boolean` default `false`. Exclude component from notFound match.
+* `notFound: ?Boolean` default `false`.
+* `path: String`. When `<Route />` is nested, path props of parent route will be automagically be prepended.
 
 ### Link
 
@@ -100,6 +107,6 @@ ReactDOM.render(
 * `children: ?JSX.Element` default `null`
 * `className: ?String` default `'link'`
 * `exact: ?Boolean` default `false`
-* `onClick: ?Function`  default `null`
-* `to: String`
+* `onClick: ?Function`.
 * `replace: ?Boolean` default `false`
+* `to: String`
