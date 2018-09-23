@@ -1,6 +1,6 @@
 {
   "name": "exmg-react-router",
-  "version": "2.0.0-0",
+  "version": "2.0.0-1",
   "description": "Context based router for react",
   "main": "dist/exmg-react-router.common.js",
   "module": "dist/exmg-react-router.esm.js",
