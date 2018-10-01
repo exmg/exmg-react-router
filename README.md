@@ -116,4 +116,4 @@ ReactDOM.render(
 * `onClick: ?Function`.
 * `replace: ?Boolean` default `false`
 * `to: String`
-* `relative`: `?Boolean` 
+* `relative`: `?Boolean`
