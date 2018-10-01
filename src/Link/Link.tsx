@@ -8,10 +8,12 @@ const isModifiedEvent = (event: React.MouseEvent<HTMLAnchorElement>) =>
 
 interface Props {
   activeClassName: string;
+  back?: boolean;
   children: React.ReactNode;
   className: string;
   exact: boolean;
   onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+  relative?: boolean;
   replace: boolean;
   to: string;
 }
@@ -22,10 +24,12 @@ export default class Link extends PureComponent<Props> {
     className: 'link',
     exact: false,
     replace: false,
+    to: '/',
   };
 
   clickAction = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    const { to, onClick, replace } = this.props;
+    const { onClick, replace, back } = this.props;
+    const slug = event.currentTarget.getAttribute('href');
 
     if (onClick) {
       onClick(event);
@@ -34,22 +38,26 @@ export default class Link extends PureComponent<Props> {
     if (!event.defaultPrevented && event.button === 0 && !isModifiedEvent(event)) {
       event.preventDefault();
 
+      if (back) {
+        return getHistory().goBack();
+      }
+
       if (replace) {
-        getHistory().replace(to);
+        getHistory().replace(slug);
       } else {
-        getHistory().push(to);
+        getHistory().push(slug);
       }
     }
   }
 
   render() {
-    const { to, exact, className, activeClassName, children } = this.props;
+    const { to, exact, className, activeClassName, children, relative } = this.props;
 
     return (
       <Route path={ to } exact={ exact } exclude>
-        { match => (
+        { (match, params, parentPath) => (
             <a
-              href={ `${to}` }
+              href={ relative ? `${parentPath}${to}` : to }
               onClick={ this.clickAction }
               className={ `${className} ${match ? activeClassName : ''}` }
             >

@@ -60,6 +60,20 @@ ReactDOM.render(
                 <h1>Home</h1>
             </Route>
             <Route path="/foo">
+                { /* Links have absolute path */ }
+                <Link to="/foo">
+                    Foo /
+                </Link>
+
+                <Link to="/foo/bar">
+                    Foo /bar
+                </Link>
+
+                { /* Relative links prepend current slug to the target location */ }
+                <Link to="/bar" relative>
+                    Foo /bar
+                </Link>
+
                 { /* Routes will inherit path, so absolute path will be /foo */ }
                 <Route path="/" exact>
                     <h1>Foo /</h1>
@@ -68,14 +82,6 @@ ReactDOM.render(
                 <Route path="/bar" exact>
                     <h1>Foo /bar</h1>
                 </Route>
-
-                { /* Links have absolute path */ }
-                <Link to="/foo">
-                    Foo /
-                </Link>
-                <Link to="/foo/bar">
-                    Foo /bar
-                </Link>
             </Route>
         </div>
         <footer>
@@ -110,3 +116,4 @@ ReactDOM.render(
 * `onClick: ?Function`.
 * `replace: ?Boolean` default `false`
 * `to: String`
+* `relative`: `?Boolean` 

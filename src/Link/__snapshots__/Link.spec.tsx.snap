@@ -18,3 +18,22 @@ Array [
   </a>,
 ]
 `;
+
+exports[`prepends path from parent route for relative links 1`] = `
+Array [
+  <a
+    className="link "
+    href="/bar"
+    onClick={[Function]}
+  >
+    Absolute
+  </a>,
+  <a
+    className="link "
+    href="/foo/bar"
+    onClick={[Function]}
+  >
+    Relative
+  </a>,
+]
+`;

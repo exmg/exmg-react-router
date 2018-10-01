@@ -3,7 +3,7 @@ import pathToRegexp from 'path-to-regexp';
 
 import { Context } from '../RouterProvider';
 
-type ChildrenFunc = (match: boolean, params?: Params) => React.ReactNode;
+type ChildrenFunc = (match: boolean, params?: Params, parentPath?: string) => React.ReactNode;
 
 export interface Props {
   children: React.ReactNode | ChildrenFunc;
@@ -58,6 +58,14 @@ export class RouteComponent extends Component<Props & Context, State> {
     this.unregister();
   }
 
+  shouldComponentUpdate(nextProps: Props, nextState: State) {
+    if (this.state.match === nextState.match && this.props === nextProps) {
+      return false;
+    }
+
+    return true;
+  }
+
   match(pathname: string): false | Match {
     if (this.props.notFound) {
       return false;
@@ -93,24 +101,16 @@ export class RouteComponent extends Component<Props & Context, State> {
     });
   }
 
-  shouldComponentUpdate(nextProps: Props, nextState: State) {
-    if (this.state.match === nextState.match && this.props === nextProps) {
-      return false;
-    }
-
-    return true;
-  }
-
   render() {
     const { children } = this.props;
     const { match } = this.state;
 
     if (typeof children === 'function') {
       if (match) {
-        return children(true, match.params);
+        return children(true, match.params, this.props.parentPath);
       }
 
-      return children(false, {});
+      return children(false, {}, this.props.parentPath);
     }
 
     if (match) {
@@ -122,15 +122,6 @@ export class RouteComponent extends Component<Props & Context, State> {
 }
 
 export class Route extends Component<Props> {
-  // register: Context['register'] = (component) => {
-  //   console.log('Route::register', component);
-  // }
-
-  // contextProps: Context = {
-  //   register: this.register,
-  //   parentPath: this.props.path,
-  // };
-
   render() {
     const { children, ...props } = this.props;
 
@@ -147,15 +138,3 @@ export class Route extends Component<Props> {
     );
   }
 }
-
-// export const Route: React.SFC<Props> = ({ children, ...props }) => (
-//   <Context.Consumer>
-//     { router => (
-//       <RouteComponent { ...router } { ...props }>
-//         <Context.Provider value={ router }>
-//           { children }
-//         </Context.Provider>
-//       </RouteComponent>
-//     ) }
-//   </Context.Consumer>
-// );
