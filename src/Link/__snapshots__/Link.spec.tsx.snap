@@ -1,5 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Link can render as custom component 1`] = `
+<button
+  className="link "
+  href="/bar"
+  onClick={[Function]}
+>
+  Absolute
+</button>
+`;
+
 exports[`Link renders children 1`] = `
 Array [
   <a

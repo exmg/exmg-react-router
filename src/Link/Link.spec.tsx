@@ -45,3 +45,16 @@ test('prepends path from parent route for relative links', () => {
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();
 });
+
+test('Link can render as custom component', () => {
+  const component = renderer.create(
+		<RouterProvider>
+      <Route path="/foo">
+        <Link to="/bar" component={<button />}>Absolute</Link>
+      </Route>
+		</RouterProvider>,
+	);
+
+  const tree = component.toJSON();
+  expect(tree).toMatchSnapshot();
+});

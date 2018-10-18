@@ -11,6 +11,7 @@ interface Props {
   back?: boolean;
   children: React.ReactNode;
   className: string;
+  component?: JSX.Element;
   exact: boolean;
   onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
   relative?: boolean;
@@ -50,20 +51,38 @@ export default class Link extends PureComponent<Props> {
     }
   }
 
+  renderLink = (match: boolean, params: any, parentPath: string) => {
+    const { activeClassName, children, className, component, relative, to } = this.props;
+
+    if (component) {
+      return React.cloneElement(
+        component,
+        {
+          href: relative ? `${parentPath}${to}` : to,
+          onClick: this.clickAction,
+          className: `${className} ${match ? activeClassName : ''}`,
+        },
+        children,
+      );
+    }
+
+    return (
+      <a
+        href={ relative ? `${parentPath}${to}` : to }
+        onClick={ this.clickAction }
+        className={ `${className} ${match ? activeClassName : ''}` }
+      >
+        { children }
+      </a>
+    );
+  }
+
   render() {
-    const { to, exact, className, activeClassName, children, relative } = this.props;
+    const { to, exact } = this.props;
 
     return (
       <Route path={ to } exact={ exact } exclude>
-        { (match, params, parentPath) => (
-            <a
-              href={ relative ? `${parentPath}${to}` : to }
-              onClick={ this.clickAction }
-              className={ `${className} ${match ? activeClassName : ''}` }
-            >
-              { children }
-            </a>
-          ) }
+        { this.renderLink }
       </Route>
     );
   }
