@@ -6,7 +6,7 @@ import { Context } from '../RouterProvider';
 type ChildrenFunc = (match: boolean, params?: Params, parentPath?: string) => React.ReactNode;
 
 export interface Props {
-  children: React.ReactNode | ChildrenFunc;
+  children: ChildrenFunc & React.ReactNode;
   exact?: boolean;
   exclude?: boolean;
   notFound?: boolean;
@@ -46,8 +46,8 @@ export class RouteComponent extends Component<Props & Context, State> {
     const path = this.props.parentPath + this.props.path;
 
     return path
-			.replace(/\/\/|\/$/g, '/')
-			.replace(/\/+$/, '');
+      .replace(/\/\/|\/$/g, '/')
+      .replace(/\/+$/, '');
   }
 
   componentDidMount() {
