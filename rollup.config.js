@@ -43,7 +43,7 @@ export default [{
   ],
   plugins: [
     resolve({
-      extensions: ['.js', '.ts'],
+      extensions: ['.js', '.ts', '.tsx'],
     }),
     typescript({
       useTsconfigDeclarationDir: true,

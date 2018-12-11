@@ -47,6 +47,8 @@ export default class RouterProvider extends Component<Props> {
       const index = map.indexOf(routeComponent);
 
       map.splice(index, 1);
+
+      this.requestUpdate();
     };
   }
 
