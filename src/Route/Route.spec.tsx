@@ -44,9 +44,9 @@ test('Route renders functions', (done) => {
   setLocation('/').then(() => {
     const component = renderer.create(
       <RouterProvider>
-        <Route path="/" exact>{match => match && 'Foo'}</Route>
-        <Route path="/foo">{match => match && 'Bar'}</Route>
-        <Route path="/foo/bar">{() => 'Render anyway'}</Route>
+        <Route path="/" exact render={match => match && 'Foo'} />
+        <Route path="/foo" render={match => match && 'Bar'} />
+        <Route path="/foo/bar" render={() => 'Render anyway'} />
       </RouterProvider>,
     );
 
@@ -61,9 +61,9 @@ test('Route renders functions route: /foo', (done) => {
   setLocation('/foo').then(() => {
     const component = renderer.create(
       <RouterProvider>
-        <Route path="/" exact>{match => match && 'Foo'}</Route>
-        <Route path="/foo">{match => match && 'Bar'}</Route>
-        <Route path="/foo/bar">{() => 'Render anyway'}</Route>
+        <Route path="/" exact render={match => match && 'Foo'} />
+        <Route path="/foo" render={match => match && 'Bar'} />
+        <Route path="/foo/bar" render={() => 'Render anyway'}></Route>
       </RouterProvider>,
     );
 
@@ -78,8 +78,8 @@ test('Route contains params', (done) => {
   setLocation('/16/barry/some/args').then(() => {
     const component = renderer.create(
       <RouterProvider>
-        <Route path="/:id/:name/:rest*">{(match, params) => JSON.stringify(params)}</Route>
-        <Route path="/:rest*">{(match, params) => JSON.stringify(params)}</Route>
+        <Route path="/:id/:name/:rest*" render={(match, params) => JSON.stringify(params)} />
+        <Route path="/:rest*" render={(match, params) => JSON.stringify(params)} />
       </RouterProvider>,
     );
 

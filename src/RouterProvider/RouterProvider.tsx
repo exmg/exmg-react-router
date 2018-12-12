@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { createHistory, HistoryTypes } from '../utils';
-import { RouteComponent } from 'Route/Route';
+import { Route } from 'Route/Route';
 import { UnregisterCallback  } from 'history';
 
 export interface Context {
@@ -17,7 +17,7 @@ export interface Props {
 }
 
 interface RoutesMap {
-  [key: string]: RouteComponent[];
+  [key: string]: Route[];
 }
 
 export default class RouterProvider extends Component<Props> {
@@ -30,8 +30,8 @@ export default class RouterProvider extends Component<Props> {
   unlisten: UnregisterCallback;
   history = createHistory(this.props.type);
 
-  register: Context['register'] = (routeComponent: RouteComponent) => {
-    const { parentPath } = routeComponent.props;
+  register: Context['register'] = (routeComponent: Route) => {
+    const { parentPath } = routeComponent.context;
 
     if (!this.routesMap[parentPath]) {
       this.routesMap[parentPath] = [];
@@ -80,9 +80,9 @@ export default class RouterProvider extends Component<Props> {
     this.raf = null;
   }
 
-  updateGroup(pathname: string, routes: RouteComponent[]) {
+  updateGroup(pathname: string, routes: Route[]) {
     let foundMatch = false;
-    const nonMatchingRoutes: RouteComponent[] = [];
+    const nonMatchingRoutes: Route[] = [];
 
     routes.forEach((route) => {
       const match = route.match(pathname);

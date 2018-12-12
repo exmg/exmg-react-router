@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import pathToRegexp from 'path-to-regexp';
 
-import { Context } from '../RouterProvider';
+import { Context as RouterContext } from '../RouterProvider';
 
 type ChildrenFunc = (match: boolean, params?: Params, parentPath?: string) => React.ReactNode;
 
 export interface Props {
-  children: ChildrenFunc & React.ReactNode;
+  children?: React.ReactNode;
+  render?: ChildrenFunc;
   exact?: boolean;
   exclude?: boolean;
   notFound?: boolean;
@@ -26,7 +27,8 @@ export interface State {
   match: false | Match;
 }
 
-export class RouteComponent extends Component<Props & Context, State> {
+export class Route extends Component<Props, State> {
+  static contextType = RouterContext;
   static defaultProps = {
     path: '/',
     exact: false,
@@ -38,12 +40,14 @@ export class RouteComponent extends Component<Props & Context, State> {
     match: false,
   } as State;
 
+  context!: RouterContext;
+
   keys: pathToRegexp.Key[] = [];
   pathRegexp = pathToRegexp(this.path, this.keys, { end: false });
   unregister: () => void;
 
   get path() {
-    const path = this.props.parentPath + this.props.path;
+    const path = this.context.parentPath + this.props.path;
 
     return path
       .replace(/\/\/|\/$/g, '/')
@@ -51,7 +55,7 @@ export class RouteComponent extends Component<Props & Context, State> {
   }
 
   componentDidMount() {
-    this.unregister = this.props.register(this);
+    this.unregister = this.context.register(this);
   }
 
   componentWillUnmount() {
@@ -101,16 +105,16 @@ export class RouteComponent extends Component<Props & Context, State> {
     });
   }
 
-  render() {
-    const { children } = this.props;
+  renderChildren() {
+    const { children, render } = this.props;
     const { match } = this.state;
 
-    if (typeof children === 'function') {
+    if (typeof render === 'function') {
       if (match) {
-        return children(true, match.params, this.props.parentPath);
+        return render(true, match.params, this.context.parentPath);
       }
 
-      return children(false, {}, this.props.parentPath);
+      return render(false, {}, this.context.parentPath);
     }
 
     if (match) {
@@ -119,22 +123,12 @@ export class RouteComponent extends Component<Props & Context, State> {
 
     return null;
   }
-}
 
-export class Route extends Component<Props> {
   render() {
-    const { children, ...props } = this.props;
-
     return (
-      <Context.Consumer>
-        { router => (
-          <Context.Provider value={ { register: router.register, parentPath: this.props.path } }>
-            <RouteComponent { ...router } { ...props }>
-              { children }
-            </RouteComponent>
-          </Context.Provider>
-        ) }
-      </Context.Consumer>
+      <RouterContext.Provider value={ { register: this.context.register, parentPath: this.path } }>
+        {this.renderChildren()}
+      </RouterContext.Provider>
     );
   }
 }

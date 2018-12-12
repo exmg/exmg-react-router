@@ -81,9 +81,12 @@ export default class Link extends PureComponent<Props> {
     const { to, exact } = this.props;
 
     return (
-      <Route path={ to } exact={ exact } exclude>
-        { this.renderLink }
-      </Route>
+      <Route
+        path={ to }
+        exact={ exact }
+        exclude
+        render={this.renderLink}
+      />
     );
   }
 }

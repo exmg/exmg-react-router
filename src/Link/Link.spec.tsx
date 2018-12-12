@@ -20,11 +20,11 @@ const history = createHistory('memory');
 
 test('Link renders children', () => {
   const component = renderer.create(
-		<RouterProvider>
-			<Link to="/" exact>Home</Link>
-			<Link to="/sub">Sub</Link>
-		</RouterProvider>,
-	);
+    <RouterProvider>
+      <Link to="/" exact>Home</Link>
+      <Link to="/sub">Sub</Link>
+    </RouterProvider>,
+  );
 
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();
@@ -34,13 +34,13 @@ test('prepends path from parent route for relative links', () => {
   history.push('/foo');
 
   const component = renderer.create(
-		<RouterProvider>
+    <RouterProvider>
       <Route path="/foo">
         <Link to="/bar">Absolute</Link>
         <Link to="/bar" relative>Relative</Link>
       </Route>
-		</RouterProvider>,
-	);
+    </RouterProvider>,
+  );
 
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();
@@ -48,12 +48,12 @@ test('prepends path from parent route for relative links', () => {
 
 test('Link can render as custom component', () => {
   const component = renderer.create(
-		<RouterProvider>
+    <RouterProvider>
       <Route path="/foo">
         <Link to="/bar" component={<button />}>Absolute</Link>
       </Route>
-		</RouterProvider>,
-	);
+    </RouterProvider>,
+  );
 
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();
