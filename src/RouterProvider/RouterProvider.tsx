@@ -66,9 +66,8 @@ export default class RouterProvider extends Component<Props> {
   }
 
   requestUpdate() {
-    if (!this.raf) {
-      this.raf = requestAnimationFrame(this.update);
-    }
+    cancelAnimationFrame(this.raf);
+    this.raf = requestAnimationFrame(this.update);
   }
 
   update = () => {
@@ -76,8 +75,6 @@ export default class RouterProvider extends Component<Props> {
     const routeGroups = Object.values(this.routesMap);
 
     routeGroups.forEach(routes => this.updateGroup(pathname, routes));
-
-    this.raf = null;
   }
 
   updateGroup(pathname: string, routes: Route[]) {
